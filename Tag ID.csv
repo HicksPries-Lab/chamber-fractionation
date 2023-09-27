@@ -1,0 +1,54 @@
+Number,Species,N treatment ,Rep,Myco. Association
+1,Black cherry,low,1,AM
+2,Black cherry,low,2,AM
+3,Black cherry,mid,1,AM
+4,Black cherry,mid,2,AM
+5,Black cherry,high ,1,AM
+6,Black cherry,high ,2,AM
+7,Red Oak,low,1,EcM
+8,Red Oak,low,2,EcM
+9,Red Oak,mid,1,EcM
+10,Red Oak,mid,2,EcM
+11,Red Oak,high ,1,EcM
+12,Red Oak,high ,2,EcM
+13,White pine,low,1,EcM
+14,White pine,low,2,EcM
+15,White pine,mid,1,EcM
+16,White pine,mid,2,EcM
+17,White pine,high ,1,EcM
+18,White pine,high ,2,EcM
+19,White cedar,low,1,AM
+20,White cedar,low,2,AM
+21,White cedar,mid,1,AM
+22,White cedar,mid,2,AM
+23,White cedar,high ,1,AM
+24,White cedar,high ,2,AM
+25,Basswood,low,1,EcM
+26,Basswood,low,2,EcM
+27,Basswood,mid,1,EcM
+28,Basswood,mid,2,EcM
+29,Basswood,high ,1,EcM
+30,Basswood,high ,2,EcM
+31,Black gum,low,1,AM
+32,Black gum,low,2,AM
+33,Black gum,mid,1,AM
+34,Black gum,mid,2,AM
+35,Black gum,high ,1,AM
+36,Black gum,high ,2,AM
+37,Black birch,low,1,EcM
+38,Black birch,low,2,EcM
+39,Black birch,mid,1,EcM
+40,Black birch,mid,2,EcM
+41,Black birch,high ,1,EcM
+42,Black birch,high ,2,EcM
+43,Red maple,low,1,AM
+44,Red maple,low,2,AM
+45,Red maple,mid,1,AM
+46,Red maple,mid,2,AM
+47,Red maple,high ,1,AM
+48,Red maple,high ,2,AM
+49,Control,low,,Control
+50,Control,mid,,Control
+51,Control,mid,,Control
+52,Control,high ,,Control
+53,Control,high ,,Control
