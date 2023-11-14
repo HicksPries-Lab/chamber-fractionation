@@ -8,19 +8,20 @@ library(data.table)
 
 #read in IRMS data and merge into dataframe #
 #select folder where data is
-setwd("/Users/f00502n/Documents/Dartmouth/DOE Mycorrhizae/chamber/fractionation/IRMS data")
+#setwd("/Users/f00502n/Documents/Dartmouth/DOE Mycorrhizae/chamber/fractionation/IRMS data")
+setwd("/Users/f003833/Documents/GitHub/fractionation/IRMS data")
 files <- (Sys.glob("*.xlsx"))
 alldata <- lapply(files, function(x) read_excel(x, sheet = 1)) 
 alldata <- rbindlist(alldata, idcol = T)
 
 #IRMS data for bulk mesh bag soil #
-setwd("/Users/f00502n/Documents/Dartmouth/DOE Mycorrhizae/chamber/fractionation")
+setwd("/Users/f003833/Documents/GitHub/fractionation")
 bulk <- read.csv("chamber_corrected_IRMS_compiled.csv")[,c("Identifier.1", "PotNumber", "SampleType",
                                                         "corrected.percent.C", "C13.corrected")]
 bulk <- bulk %>%
   filter(SampleType == "450 micron") %>%
   group_by(PotNumber) %>%
-  summarise(bulk.perC = mean(corrected.percent.C),
+  dplyr::summarise(bulk.perC = mean(corrected.percent.C),
             bulk.C13 = mean(C13.corrected))
 
 #read in chamber info and fractionation weights
@@ -63,7 +64,7 @@ check.coef.var <- alldata %>%
 #calculate average for each sample
 all.avg <- alldata %>%
   group_by(Identifier.2) %>%
-  summarise(perC = mean(corrected.percent.C),
+  dplyr::summarise(perC = mean(corrected.percent.C),
             C13 = mean(C13.corrected))
 # create separate columns for ID number and fraction
 all.avg$Fraction <- str_replace_all(all.avg$Identifier.2,"[0-9, ]", "") 
