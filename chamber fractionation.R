@@ -5,6 +5,9 @@ library(stringr)
 library(ggplot2)
 library(tidyverse)
 library(data.table)
+library(lme4)
+library(lmerTest)
+library(nlme)
 
 #read in IRMS data and merge into dataframe #
 #select folder where data is
@@ -112,6 +115,8 @@ carbon.data <- carbon.data %>%
           perC13.OLF.FLF = mgC13.OLF.FLF/ (mgC13.DF + mgC13.OLF.FLF) * 100
   )
 
+#write.csv(carbon.data, "chamber fractionation carbon data.csv", row.names =  FALSE)
+
 # carbon.data$R.total <- (carbon.data$bulk.C13/1000 + 1) * 0.0112372 #PDB standard value
 # carbon.data$F.total <- carbon.data$R.total / (1 + carbon.data$R.total) 
 # carbon.data$mg.13C.v2 <- carbon.data$F.total * carbon.data$total.fractionated.mgC
@@ -133,5 +138,16 @@ hist(carbon.data$recovery)
 ggplot(data = carbon.data, aes(x = N.treatment, y = perC13.OLF.FLF)) + geom_point(aes(color = Myco..Association)) + 
   geom_smooth(method = "lm", se = FALSE, aes(color = Myco..Association))
 
+ggplot(data = carbon.data, aes(x = N.treatment, y = mgC13.OLF.FLF)) + geom_point(aes(color = Myco..Association)) + 
+  geom_smooth(method = "lm", se = FALSE, aes(color = Myco..Association))
 
+ggplot(data = carbon.data, aes(x = N.treatment, y = mgC13.DF)) + geom_point(aes(color = Myco..Association)) + 
+  geom_smooth(method = "lm", se = FALSE, aes(color = Myco..Association))
 
+mod.try <- lmer(data = carbon.data, mgC13.OLF.FLF ~ Myco..Association*N.treatment + (1|Species))
+summary(mod.try)
+anova(mod.try)
+
+mod.try <- lmer(data = carbon.data, mgC13.DF ~ Myco..Association*N.treatment + (1|Species))
+summary(mod.try)
+anova(mod.try)
