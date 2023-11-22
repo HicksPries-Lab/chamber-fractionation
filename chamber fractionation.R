@@ -8,14 +8,15 @@ library(data.table)
 
 #read in IRMS data and merge into dataframe #
 #select folder where data is
-#setwd("/Users/f00502n/Documents/Dartmouth/DOE Mycorrhizae/chamber/fractionation/IRMS data")
-setwd("/Users/f003833/Documents/GitHub/fractionation/IRMS data")
+setwd("/Users/f00502n/Documents/Dartmouth/DOE Mycorrhizae/chamber/fractionation/IRMS data")
+#setwd("/Users/f003833/Documents/GitHub/fractionation/IRMS data")
 files <- (Sys.glob("*.xlsx"))
 alldata <- lapply(files, function(x) read_excel(x, sheet = 1)) 
 alldata <- rbindlist(alldata, idcol = T)
 
 #IRMS data for bulk mesh bag soil #
-setwd("/Users/f003833/Documents/GitHub/fractionation")
+setwd("/Users/f00502n/Documents/Dartmouth/DOE Mycorrhizae/chamber/fractionation/")
+#setwd("/Users/f003833/Documents/GitHub/fractionation")
 bulk <- read.csv("chamber_corrected_IRMS_compiled.csv")[,c("Identifier.1", "PotNumber", "SampleType",
                                                         "corrected.percent.C", "C13.corrected")]
 bulk <- bulk %>%
@@ -98,12 +99,14 @@ carbon.data <- alldata2 %>%
 #for some reason, C recovery is unreasonably high ??? don't know why
 
 #calculate ratio for soil
-carbon.data$mgC13.total <- fraction(carbon.data$bulk.C13, carbon.data$total.fractionated.mgC)
+#carbon.data$mgC13.total <- fraction(carbon.data$bulk.C13, carbon.data$total.fractionated.mgC)
 carbon.data$mgC13.DF <- fraction(carbon.data$C13_DF, carbon.data$DF.mgC)
 carbon.data$mgC13.OLF.FLF <- fraction(carbon.data$`C13_OLF+FLF`, carbon.data$OLF.FLF.mgC)
+#use sum of fractions for total C13
+carbon.data$mgC13.total <- carbon.data$mgC13.DF + carbon.data$mgC13.OLF.FLF
 
-carbon.data$recovery.C13 <- (carbon.data$mgC13.DF + carbon.data$mgC13.OLF.FLF) / carbon.data$mgC13.total *100
-#this is also really high!!
+#carbon.data$recovery.C13 <- (carbon.data$mgC13.DF + carbon.data$mgC13.OLF.FLF) / carbon.data$mgC13.total *100
+
 carbon.data <- carbon.data %>%
   mutate( perC13.DF = mgC13.DF/ (mgC13.DF + mgC13.OLF.FLF) * 100,
           perC13.OLF.FLF = mgC13.OLF.FLF/ (mgC13.DF + mgC13.OLF.FLF) * 100
@@ -113,7 +116,8 @@ carbon.data <- carbon.data %>%
 # carbon.data$F.total <- carbon.data$R.total / (1 + carbon.data$R.total) 
 # carbon.data$mg.13C.v2 <- carbon.data$F.total * carbon.data$total.fractionated.mgC
 # 
-carbon.data$N.treatment <- factor(carbon.data$N.treatment, levels = c("low", "mid", "high "))
+#carbon.data$N.treatment <- factor(carbon.data$N.treatment, levels = c("low", "mid", "high "))
+carbon.data$N.treatment <- as.numeric(revalue(carbon.data$N.treatment, c("low" = 1, "mid" = 2, "high " = 3)))
 
 boxplot(carbon.data$perC13.DF~carbon.data$N.treatment)
 boxplot(carbon.data$perC13.DF~carbon.data$Myco..Association+carbon.data$N.treatment)
@@ -126,6 +130,8 @@ ggplot() + geom_point(data = carbon.data, aes( x = carbon.data$`C13_OLF+FLF`, y 
 
 hist(carbon.data$recovery)
 
+ggplot(data = carbon.data, aes(x = N.treatment, y = perC13.OLF.FLF)) + geom_point(aes(color = Myco..Association)) + 
+  geom_smooth(method = "lm", se = FALSE, aes(color = Myco..Association))
 
 
 
