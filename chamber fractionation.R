@@ -144,6 +144,8 @@ ggplot(data = carbon.data, aes(x = N.treatment, y = mgC13.OLF.FLF)) + geom_point
 ggplot(data = carbon.data, aes(x = N.treatment, y = mgC13.DF)) + geom_point(aes(color = Myco..Association)) + 
   geom_smooth(method = "lm", se = FALSE, aes(color = Myco..Association))
 
+
+#### Statistics ####
 mod.try <- lmer(data = carbon.data, mgC13.OLF.FLF ~ Myco..Association*N.treatment + (1|Species))
 summary(mod.try)
 anova(mod.try)
