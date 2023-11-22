@@ -135,7 +135,7 @@ ggplot() + geom_point(data = carbon.data, aes( x = carbon.data$`C13_OLF+FLF`, y 
 
 hist(carbon.data$recovery)
 
-ggplot(data = carbon.data, aes(x = N.treatment, y = perC13.OLF.FLF)) + geom_point(aes(color = Myco..Association)) + 
+ggplot(data = carbon.data, aes(x = N.treatment, y = mgC13.total)) + geom_point(aes(color = Myco..Association)) + 
   geom_smooth(method = "lm", se = FALSE, aes(color = Myco..Association))
 
 ggplot(data = carbon.data, aes(x = N.treatment, y = mgC13.OLF.FLF)) + geom_point(aes(color = Myco..Association)) + 
